@@ -1,0 +1,38 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="enable_switch"
+        android:title="@string/pref_title_enable_notification" />
+
+    <!-- NOTE: EditTextPreference accepts EditText attributes. -->
+    <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/pref_default_name"
+        android:inputType="textCapWords|textNoSuggestions"
+        android:key="name_text"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_name" />
+
+    <EditTextPreference
+        android:defaultValue="@string/pref_default_email"
+        android:inputType="textEmailAddress"
+        android:key="email_text"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_email" />
+
+    <EditTextPreference
+        android:defaultValue="@string/pref_default_phone"
+        android:inputType="phone"
+        android:key="phone_text"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/pref_title_phone" />
+
+</PreferenceScreen>

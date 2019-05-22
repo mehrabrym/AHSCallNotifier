@@ -3,6 +3,8 @@ package com.rmehrab.ahscallnotifier;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,20 +16,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
-    Intent mServiceIntent;
-    CallCheckService mCallCheckService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mCallCheckService = new CallCheckService(this);
-        mServiceIntent = new Intent(this, mCallCheckService.getClass());
-
-        if (!isMyServiceRunning(mCallCheckService.getClass())){
-            startService(mServiceIntent);
-        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -38,20 +31,27 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                startActivity(new Intent(MainActivity.this,AddActivity.class));
             }
         });
+
+        getFullListFromDB();
+
+
     }
 
-    private boolean isMyServiceRunning(Class<?> serviceClass) {
-        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (serviceClass.getName().equals(service.service.getClassName())){
-                Log.i ("isMyServiceRunning?", true+"");
-                return true;
-            }
+    private Cursor getFullListFromDB() {
+        SQLiteDatabase database = new SQLiteDBHelper(this).getReadableDatabase();
+        String[] projection = {SQLiteDBHelper.PERSON_COLUMN_ID, SQLiteDBHelper.PERSON_COLUMN_NAME, SQLiteDBHelper.PERSON_COLUMN_EMAIL, SQLiteDBHelper.PERSON_COLUMN_PHONE, SQLiteDBHelper.PERSON_COLUMN_NOTIFY};
+        String sortOrder = SQLiteDBHelper.PERSON_COLUMN_NAME;
+
+        Cursor cursor = database.query(SQLiteDBHelper.PERSON_TABLE_NAME, projection, null, null, null, null, sortOrder);
+
+        if (cursor != null) {
+            cursor.moveToFirst();
         }
-        Log.i ("isMyServiceRunning?", false+"");
-        return false;
+
+        return cursor;
     }
 
     @Override
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             return true;
         }
 
@@ -78,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        stopService(mServiceIntent);
-        Log.i("MAINACT", "onDestroy!");
+        //dbHelper.close();
         super.onDestroy();
     }
 }
