@@ -28,6 +28,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
                 PERSON_COLUMN_NOTIFY + " TEXT" + ")");
     }
 
+
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + PERSON_TABLE_NAME);

@@ -61,11 +61,11 @@ public class AddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
         setupActionBar();
         // Set up the login form.
-        mNameView = (EditText) findViewById(R.id.name);
+        mNameView = findViewById(R.id.name);
 
-        mEmailView = (EditText) findViewById(R.id.email);
+        mEmailView = findViewById(R.id.email);
 
-        mPhoneView = (EditText) findViewById(R.id.phone);
+        mPhoneView = findViewById(R.id.phone);
         mPhoneView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -77,7 +77,7 @@ public class AddActivity extends AppCompatActivity {
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.add_person_button);
+        Button mEmailSignInButton = findViewById(R.id.add_person_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -217,7 +217,7 @@ public class AddActivity extends AppCompatActivity {
         values.put(SQLiteDBHelper.PERSON_COLUMN_NAME, name);
         values.put(SQLiteDBHelper.PERSON_COLUMN_EMAIL, email);
         values.put(SQLiteDBHelper.PERSON_COLUMN_PHONE, phone);
-        values.put(SQLiteDBHelper.PERSON_COLUMN_NOTIFY, "yes");
+        values.put(SQLiteDBHelper.PERSON_COLUMN_NOTIFY, "true");
         long newRowId = database.insert(SQLiteDBHelper.PERSON_TABLE_NAME, null, values);
 
         //Toast.makeText(AddActivity.this, "This new Row Id is " + newRowId, Toast.LENGTH_LONG).show();

@@ -1,6 +1,7 @@
 package com.rmehrab.ahscallnotifier;
 
 import android.app.ActivityManager;
+import android.app.Person;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -9,23 +10,33 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewParent;
+import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    ArrayAdapter<String> adapter;
+    ArrayList listItems;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,9 +46,41 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        getFullListFromDB();
+        ListView myListView = findViewById(R.id.users_list);
+        listItems = getListData();
+        //adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listItems);//new CustomAdapter(getActivity(), R.layout.row, myStringArray1);
+        //myListView.setAdapter(adapter);
+
+        myListView.setAdapter(new CustomListAdapter(this,listItems));
+
+        /*SwitchCompat switchCompat = (SwitchCompat)findViewById(R.id.person_switch);
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //ViewParent
+            }
+        });
+        //switchCompat.*/
 
 
+    }
+
+    private ArrayList getListData(){
+        ArrayList<PersonItem> results = new ArrayList<PersonItem>();
+        Cursor cursor = getFullListFromDB();
+        try{
+            while (cursor.moveToNext()) {
+                PersonItem personData = new PersonItem();
+                personData.setPersonName(cursor.getString(1));
+                personData.setPersonPhone(cursor.getString(3));
+                personData.setPersonEmail(cursor.getString(2));
+                personData.setPersonNotify(cursor.getString(4));
+                results.add(personData);
+            }
+        } finally {
+            cursor.close();
+        }
+        return results;
     }
 
     private Cursor getFullListFromDB() {

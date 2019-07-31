@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/person_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:typeface="sans"/>
+
+    <TextView
+        android:id="@+id/person_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/person_name"
+        android:layout_marginTop="5dip"
+        android:textColor="#343434"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/person_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/person_phone"
+        android:layout_marginTop="2dip"
+        android:textColor="#343434"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/person_notify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/person_email"
+        android:layout_marginTop="2dip"
+        android:textColor="#343434"
+        android:textSize="12sp"/>
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/person_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:text="Notify"
+        android:textColor="#343434"
+        android:textSize="12sp"/>
+
+</RelativeLayout>
